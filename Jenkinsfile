@@ -40,7 +40,6 @@ pipeline {
             // Summary 
             // Top-level agent: Used for most stages (Node.js work). Stage-level agent: Used when you need a different environment (like Docker for building images). This approach keeps your pipeline flexible and ensures each stage has the right tools.
 
-
             docker {
                 image 'docker:latest'
                 args '-u root:root'
