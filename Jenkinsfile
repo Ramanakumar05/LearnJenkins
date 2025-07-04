@@ -34,13 +34,13 @@ pipeline {
 
         // Buld Docker Image outside the Container 
         stage('Build Docker Image') {
-        steps {
-            agent{
-                docker {
-                    image 'docker:latest'
-                    args '-u root:root'
-                }
+        agent{
+            docker {
+                image 'docker:latest'
+                args '-u root:root'
             }
+        }
+        steps {
             script {
                 sh 'docker build -t $IMAGE_NAME .'
             }
