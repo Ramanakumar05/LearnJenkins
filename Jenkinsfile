@@ -1,39 +1,44 @@
-pipeline{
+pipeline {
     agent {
         docker {
-            image 'node:20-alpine'  // 🐳 A lightweight Node.js image with v20
-            args '-u root:root'  // 🛡️ Run as root to avoid permission issues}
+            image 'node:20-alpine'         // 🐳 Lightweight Node.js v20
+            args '-u root:root'            // 🔧 Run as root to avoid permission issues
         }
     }
-    stages{
-        stage("Printing")
-        {
-            steps{
+
+    stages {
+        stage("Printing") {
+            steps {
                 sh 'echo "Hello, Jenkins!"'
             }
         }
-        stage("Checkout")
-        {
-           steps{
+
+        stage("Checkout") {
+            steps {
                 git url: 'https://github.com/Ramanakumar05/LearnJenkins.git', branch: 'main'
             }
         }
-        stage("install dependencies")
-        {
-            steps{
-                sh 'npm install'
-            }
-        }
-        stage("Run Tests")
-        {
-            steps{
-                sh 'npm test'
-            }
-        }
-        stage('Publish Test Report') {
+
+        stage("Install Dependencies") {
             steps {
-                junit 'test-results/junit.xml'
-            }   
+                dir('backend') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage("Run Tests") {
+            steps {
+                dir('backend') {
+                    sh 'npm test'
+                }
+            }
+        }
+
+        stage("Publish Test Report") {
+            steps {
+                junit 'backend/test-results/junit.xml' // Modify path if needed
+            }
         }
     }
 }
