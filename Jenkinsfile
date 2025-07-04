@@ -21,24 +21,24 @@ pipeline {
 
         stage("Install Dependencies") {
             steps {
-                dir('backend') {
+                // dir('backend') {
                     sh 'npm install'
-                }
+                // }
             }
         }
 
         stage("Run Tests") {
             steps {
-                dir('backend') {
+                // dir('backend') {
                     sh 'npm test'
-                }
+                // }
             }
         }
 
-        stage("Publish Test Report") {
-            steps {
-                junit 'backend/test-results/junit.xml' // Modify path if needed
-            }
-        }
+        // stage("Publish Test Report") {
+        //     steps {
+        //         junit 'backend/test-results/junit.xml' // Modify path if needed
+        //     }
+        // }
     }
 }
