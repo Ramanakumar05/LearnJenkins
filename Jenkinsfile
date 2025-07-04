@@ -1,9 +1,10 @@
 pipeline{
-    agent any
-    tools{
-        nodejs "nodejs-24"
+    agent {
+        docker {
+            image 'node:20-alpine'  // 🐳 A lightweight Node.js image with v20
+            args '-v /tmp:/tmp'     // Optional: mount volume if needed
+        }
     }
-
     stages{
         stage("Printing")
         {
