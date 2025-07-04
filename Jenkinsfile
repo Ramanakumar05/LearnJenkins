@@ -5,6 +5,9 @@ pipeline {
             args '-u root:root'
         }
     }
+    environment {
+        IMAGE_NAME = 'my-image-name'
+    }
     stages {
         stage("Printing") {
             steps {
