@@ -45,7 +45,8 @@ pipeline {
 
             docker {
                 image 'docker:latest'
-                args '-u root:root'
+                args '-v /var/run/docker.sock:/var/run/docker.sock -u root:root'
+
             }
         }
         steps {
