@@ -2,14 +2,15 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'my-node-app'
+        DOCKER_IMAGE = 'ramana0410/my-node-app'
+        DOCKER_CREDENTIALS_ID = 'dockerhub'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
                 echo "📥 Checking out code from GitHub"
-                git branch: 'main', url: 'https://github.com/Ramanakumar05/LearnJenkins.git'
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
             }
         }
 
@@ -20,20 +21,25 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container (optional)') {
+        stage('Push to DockerHub') {
             steps {
-                echo "🚀 Running Docker container"
-                sh 'docker run -d -p 3000:3000 $DOCKER_IMAGE'
+                echo "🔐 Logging into DockerHub and pushing image"
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $DOCKER_IMAGE
+                    '''
+                }
             }
         }
     }
 
     post {
         success {
-            echo '✅ CI Docker build pipeline completed successfully.'
+            echo '✅ Docker image pushed to DockerHub!'
         }
         failure {
-            echo '❌ Something went wrong during the pipeline.'
+            echo '❌ Build failed!'
         }
     }
 }
