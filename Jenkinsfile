@@ -20,6 +20,7 @@ pipeline {
             steps {
                 dir('backend') {
                     sh 'npm install'
+                    sh ''
                 }
             }
         }
@@ -30,8 +31,16 @@ pipeline {
                 }
             }
         }
+
+        // Buld Docker Image outside the Container 
         stage('Build Docker Image') {
         steps {
+            agent{
+                docker {
+                    image 'docker:latest'
+                    args '-u root:root'
+                }
+            }
             script {
                 sh 'docker build -t $IMAGE_NAME .'
             }
