@@ -20,7 +20,6 @@ pipeline {
             steps {
                 dir('backend') {
                     sh 'npm install'
-                    sh ''
                 }
             }
         }
@@ -32,7 +31,7 @@ pipeline {
             }
         }
 
-        // Buld Docker Image outside the Container 
+        // Buld Docker Image outside the Container Means Main agen Nodejs one
         stage('Build Docker Image') {
         // Inside a stage, you can override the top-level agent for just that stage.
         agent{
