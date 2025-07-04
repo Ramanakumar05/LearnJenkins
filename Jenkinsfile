@@ -8,7 +8,7 @@ pipeline{
         stage("Printing")
         {
             steps{
-                sh "echo "Hello, Jenkins!""
+                sh 'echo "Hello, Jenkins!"'
             }
         }
         stage("Checkout")
