@@ -33,15 +33,10 @@ pipeline {
                 }
             }
         }
-
-        // Buld Docker Image outside the Container Means Main agen Nodejs one
         stage('Build Docker Image') {
-            // This stage uses the top-level agent (node:20-alpine) to build a Docker image.
-            // It runs in the same environment as the rest of the pipeline, which is suitable for Node.js tasks.
+            agent any // <--- This runs the stage on any available agent (host), not inside node:20-alpine
             steps {
-                script {
-                    sh 'docker build -t $IMAGE_NAME .'
-                }
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
     }
