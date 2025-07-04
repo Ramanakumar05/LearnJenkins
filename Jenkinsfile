@@ -13,8 +13,8 @@ pipeline{
         }
         stage("Checkout")
         {
-            steps{
-                git branch: 'main', url: 'https://github.com/Ramanakumar05/LearnJenkins.git'
+           steps{
+                git url: 'https://github.com/Ramanakumar05/LearnJenkins.git', branch: 'main'
             }
         }
         stage("install dependencies")
