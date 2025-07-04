@@ -2,8 +2,7 @@ pipeline{
     agent {
         docker {
             image 'node:20-alpine'  // 🐳 A lightweight Node.js image with v20
-            args '-v /tmp:/tmp'     // Optional: mount volume if needed
-        }
+            args '-u root:root'  // 🛡️ Run as root to avoid permission issues}
     }
     stages{
         stage("Printing")
@@ -15,7 +14,7 @@ pipeline{
         stage("Checkout")
         {
             steps{
-                git 'https://github.com/Ramanakumar05/LearnJenkins.git'
+                git branch: 'main', url: 'https://github.com/Ramanakumar05/LearnJenkins.git'
             }
         }
         stage("install dependencies")
