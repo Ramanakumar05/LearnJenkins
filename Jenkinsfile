@@ -35,10 +35,10 @@ pipeline {
             }
         }
 
-        // stage("Publish Test Report") {
-        //     steps {
-        //         junit 'backend/test-results/junit.xml' // Modify path if needed
-        //     }
-        // }
+        stage("Publish Test Report") {
+            steps {
+                junit 'backend/test-results/junit.xml' // Modify path if needed
+            }
+        }
     }
 }
