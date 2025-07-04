@@ -1,57 +1,39 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:20-alpine'
-            args '-u root:root'
-        }
-    }
+    agent any
 
     environment {
-        IMAGE_NAME = 'my-image-name'
+        DOCKER_IMAGE = 'my-node-app'
     }
 
     stages {
-        stage("Printing") {
+        stage('Checkout Code') {
             steps {
-                sh 'echo "Hello, Jenkins!"'
+                echo "📥 Checking out code from GitHub"
+                git branch: 'main', url: 'https://github.com/Ramanakumar05/LearnJenkins.git'
             }
         }
 
-        stage("Checkout") {
+        stage('Build Docker Image') {
             steps {
-                git url: 'https://github.com/Ramanakumar05/LearnJenkins.git', branch: 'main'
+                echo "🐳 Building Docker image"
+                sh 'docker build -t $DOCKER_IMAGE .'
             }
         }
 
-        stage("Install Dependencies") {
+        stage('Run Docker Container (optional)') {
             steps {
-                dir('backend') {
-                    sh 'npm install'
-                }
+                echo "🚀 Running Docker container"
+                sh 'docker run -d -p 3000:3000 $DOCKER_IMAGE'
             }
         }
+    }
 
-        stage("Run Tests") {
-            steps {
-                dir('backend') {
-                    sh 'npm test'
-                }
-            }
+    post {
+        success {
+            echo '✅ CI Docker build pipeline completed successfully.'
         }
-
-        // ✅ NEW: Use docker:latest here just for building Docker image
-        stage("Build Docker Image") {
-            agent {
-                docker {
-                    image 'docker:latest'
-                    args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
-                }
-            }
-            steps {
-                script {
-                    docker.build("${IMAGE_NAME}")
-                }
-            }
+        failure {
+            echo '❌ Something went wrong during the pipeline.'
         }
     }
 }
