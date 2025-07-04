@@ -3,6 +3,7 @@ pipeline{
         docker {
             image 'node:20-alpine'  // 🐳 A lightweight Node.js image with v20
             args '-u root:root'  // 🛡️ Run as root to avoid permission issues}
+        }
     }
     stages{
         stage("Printing")
@@ -35,5 +36,4 @@ pipeline{
             }   
         }
     }
-}
 }
