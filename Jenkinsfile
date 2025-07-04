@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'node:20-alpine'
-            args '-u root:root'
+            image 'yourdockerhubuser/node-docker:latest'
+            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
     environment {
@@ -34,7 +34,6 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            agent any // <--- This runs the stage on any available agent (host), not inside node:20-alpine
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
             }
